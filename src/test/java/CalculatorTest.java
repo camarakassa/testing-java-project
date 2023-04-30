@@ -1,5 +1,8 @@
 import com.openclassroom.testing.Calculator;
+import com.openclassroom.testing.LoggingExtension;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -14,20 +17,26 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(LoggingExtension.class)
 public class CalculatorTest {
     private static Instant startedAt;
 
     private Calculator calculatorUnderTest;
+    private Logger logger;
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
 
     @BeforeEach
     public void initCalculator() {
-        System.out.println("Appel avant chaque test");
+        logger.info("Appel avant chaque test");
         calculatorUnderTest = new Calculator();
     }
 
     @AfterEach
     public void undefCalculator() {
-        System.out.println("Appel après chaque test");
+        logger.info("Appel après chaque test");
         calculatorUnderTest = null;
     }
 
@@ -46,6 +55,8 @@ public class CalculatorTest {
     }
 
     @Test
+    // Ce test fait partie des quatre opérations de base
+    @Tag("QuatreOperations")
     void testAddTwoPositiveNumbers() {
         // Arrange
         int a = 2;
@@ -60,6 +71,8 @@ public class CalculatorTest {
     }
 
     @Test
+    // Ce test fait partie des quatre opérations de base
+    @Tag("QuatreOperations")
     void multiply_shouldReturnTheProduct_ofTwoIntegers() {
         // Arrange
         int a = 42;
